@@ -11,7 +11,7 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 
-from .avoid_strategies.strategy2 import Strategy 
+from .avoid_strategies.strategy5 import Strategy 
 
 #
 # Constants
@@ -20,10 +20,9 @@ from .avoid_strategies.strategy2 import Strategy
 SCAN_MARGIN: int = 5
 
 WARN_TIME: float = 5.0             # saniye
-OBS_DETECT_DIST: float = 0.5       # metre
+OBS_DETECT_DIST: float = 0.35      # metre
 
 MAINLOOP_ZZZ: float = 0.05 # saniye
-
 
 #
 # Other Classes

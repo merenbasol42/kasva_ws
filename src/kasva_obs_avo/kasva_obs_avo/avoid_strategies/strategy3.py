@@ -5,10 +5,11 @@ from .istrategy import IStrategy
 
 PI: float = 3.141592
 
-OBS_AVO_DIST: float = 0.35        # Engel etrafında istenen mesafe (metre)
-FRONT_AVO_DIST: float = 0.35      # Ön engel için kritik mesafe (metre)
-OBS_AVO_MAX_ANG_VEL: float = 100.0   # (Kullanılmayan sabit, varsa düzenlenebilir)
-ANG_KP: float = 5.0               # Açısal kazanç
+OBS_AVO_DIST: float = 0.45        # Engel etrafında istenen mesafe (metre)
+FRONT_AVO_DIST: float = 0.35     # Ön engel için kritik mesafe (metre)
+ANG_KP: float = 4.0               # Açısal kazanç
+
+MAX_POINT_DIST: float = 3.5
 
 class Strategy(IStrategy):
     def __init__(self, f_get_curr_pose, f_get_curr_ranges, f_pub_cmd_vel):
@@ -37,7 +38,7 @@ class Strategy(IStrategy):
 
             # Sağ taraftaki (veya engelin bulunduğu yöndeki) mesafeyi ölç
             ranges = self.get_curr_ranges()
-            right_range = min(*ranges[290:359])
+            right_range = min(*ranges[270:320], MAX_POINT_DIST)
             err = OBS_AVO_DIST - right_range
             print(f"err {err}")
             angular = ANG_KP * err
@@ -50,9 +51,9 @@ class Strategy(IStrategy):
             # Eğer robotun önündeki mesafe belirli eşik değerinin altındaysa, çarpmayı önlemek için
             # robot ilerlemeyi durdurur ve sola döner.
             # (Burada, sensör dilimleri uygulamaya göre ayarlanabilir.)
-            front_left = min(ranges[0:20])
-            front_right = min(ranges[340:360])
-            front_range = min(front_left, front_right)
+            # front_left = min(ranges[0:20])
+            # front_right = min(ranges[340:360])
+            front_range = min(*ranges[:120], *ranges[320:], MAX_POINT_DIST)
             if front_range < FRONT_AVO_DIST:
                 print(f"Ön engel tespit edildi (mesafe: {front_range}). Sola dönülüyor.")
                 lin = 0.0       # İlerlemeyi durdur
