@@ -11,7 +11,7 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 
-from .avoid_strategies.strategy5 import Strategy 
+from .avoid_strategies.strategy4 import Strategy 
 
 #
 # Constants
