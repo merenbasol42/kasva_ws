@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- LIDAR Plugin (Örnek Fortress için uyarlanmış bir lidar plugin'i) -->
+    <gazebo reference="laser_frame">
+        <material>Gazebo/Black</material>
+        <sensor name="laser" type="ray">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <min_angle>-1.57</min_angle>
+                        <max_angle>1.57</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.3</min>
+                    <max>12</max>
+                </range>
+            </ray>
+            <plugin name="ignition_ros_ray_sensor" filename="ignition-gazebo-ray-system">
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>laser_frame</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+    
+    <!-- Diff Drive Plugin Fortress için uyarlanmış diff drive sistemi -->
+    <gazebo>
+        <plugin filename="ignition-gazebo-diff-drive-system" name="ignition::gazebo::systems::DiffDrive">
+            <!-- Tekerlek eklemleri -->
+            <left_joint>base_TO_left_wheel</left_joint>
+            <right_joint>base_TO_right_wheel</right_joint>
+      
+            <!-- Kinematik parametreler -->
+            <wheel_separation>0.45</wheel_separation>
+            <!-- Eski yapılandırmada wheel_diameter 0.2 idi, bu durumda yarıçap 0.1 m -->
+            <wheel_radius>0.1</wheel_radius>
+      
+            <!-- Odometri ve tf ayarları -->
+            <odom_publish_frequency>20</odom_publish_frequency>
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_link</child_frame_id>
+        </plugin>
+    </gazebo>
+
+</robot>
