@@ -1,23 +1,21 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 import xacro
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import AnyLaunchDescriptionSource
 from launch import LaunchDescription
 from launch.actions import TimerAction, ExecuteProcess
-from launch.substitutions import PathJoinSubstitution
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
-pkg_name = "kasva_description"
 
 def generate_launch_description():
     # Paketin share dizinini al
-    pkg_share = get_package_share_directory(pkg_name)
+    pkg_name = "kasva_simulate"
+    desc_pkg_name = "kasva_description"
+    desc_pkg_share = get_package_share_directory(desc_pkg_name)
     
     # Xacro dosyasının tam yolunu oluştur
-    xacro_file = os.path.join(pkg_share, 'urdf', 'gazebo.urdf.xacro')
+    xacro_file = os.path.join(desc_pkg_share, 'urdf', 'gazebo.urdf.xacro')
     
     # Xacro dosyasını işle (URDF'e çevir)
     doc = xacro.process_file(xacro_file)
@@ -28,7 +26,19 @@ def generate_launch_description():
     with open(tmp_urdf_file, 'w') as f:
         f.write(robot_desc)
     
+    
+    world_path = os.path.join(
+        get_package_share_directory(pkg_name),
+        "worlds",
+        "line_follow.sdf"
+    )
+    
     return LaunchDescription([
+        # 1. Ignition Gazebo (Fortress)'u varsayılan world ile başlat
+        ExecuteProcess(
+            cmd=['ign', 'gazebo', world_path, '-v', '4'],
+            output='screen'
+        ),
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',
@@ -37,7 +47,7 @@ def generate_launch_description():
             parameters=[{'robot_description': robot_desc}]
         ),
         # 4. 10 saniye sonra Ignition servisi ile URDF modelini spawn et
-        TimerAction(
+       TimerAction(
             period=5.0,  # Gazebo'nun tamamen açılması için bekleme süresi
             actions=[
                 ExecuteProcess(
