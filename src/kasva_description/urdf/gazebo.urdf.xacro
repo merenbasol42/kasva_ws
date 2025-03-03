@@ -6,6 +6,7 @@
     <xacro:include filename="links.xacro"/>
     <xacro:include filename="joints.xacro"/>
     <xacro:include filename="lidar.xacro"/>
+    <xacro:include filename="camera.xacro"/>
     <xacro:include filename="g_plugins.xacro"/>
 
 </robot>

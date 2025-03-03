@@ -29,11 +29,6 @@ def generate_launch_description():
         f.write(robot_desc)
     
     return LaunchDescription([
-        # 1. Ignition Gazebo (Fortress)'u varsayılan world ile başlat
-        ExecuteProcess(
-            cmd=['ign', 'gazebo', 'empty.sdf', '-v', '4'],
-            output='screen'
-        ),
         Node(
             package='robot_state_publisher',
             executable='robot_state_publisher',

@@ -5,7 +5,7 @@
     <xacro:include filename="rd_props.xacro"/>
     <xacro:include filename="links.xacro"/>
     <xacro:include filename="joints.xacro"/>
-    <!-- <xacro:include filename="lidar.xacro"/> -->
-    <!-- <xacro:include filename="camera.xacro"/> -->
+    <xacro:include filename="lidar.xacro"/>
+    <xacro:include filename="camera.xacro"/>
     
 </robot>
