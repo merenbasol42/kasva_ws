@@ -26,7 +26,7 @@
     <joint name="chasis_camera_joint" type="fixed">
         <parent link="chasis"/>
         <child link="camera_link"/>
-        <origin xyz="${chasis_l_x / 2.0} 0 ${chasis_l_z / 2.0 - camera_l_z}" rpy="0 0 0"/>
+        <origin xyz="${chasis_l_x / 2.0} 0 ${chasis_l_z / 2.0 - camera_l_z}" rpy="0 ${pi/4} 0"/>
     </joint>
 
     <!-- opencv ile çalışmak için kameranın x ekseni, z ekseni olması lazım çünkü görüntüyü öyle tasavvur ediyor -->

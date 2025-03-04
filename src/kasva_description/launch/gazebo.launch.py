@@ -51,7 +51,7 @@ def generate_launch_description():
                         '--reqtype', 'ignition.msgs.EntityFactory',
                         '--reptype', 'ignition.msgs.Boolean',
                         '--timeout', '1000',
-                        '--req', f'sdf_filename: "{tmp_urdf_file}", name: "custom_robot"'
+                        '--req', f'sdf_filename: "{tmp_urdf_file}", name: "robo_kasva"'
                     ],
                     output='screen'
                 )

@@ -7,10 +7,10 @@
             <lidar>
                 <scan>
                     <horizontal>
-                        <samples>640</samples>
+                        <samples>360</samples>
                         <resolution>1</resolution>
-                        <min_angle>-1.396263</min_angle>
-                        <max_angle>1.396263</max_angle>
+                        <min_angle>-3.141592</min_angle>
+                        <max_angle>3.141592</max_angle>
                     </horizontal>
                     <vertical>
                         <samples>1</samples>
@@ -26,7 +26,7 @@
                 </range>
             </lidar>
             <topic>scan</topic>
-            <update_rate>10</update_rate>
+            <update_rate>5</update_rate>
             <always_on>1</always_on>
             <visualize>true</visualize>
             <gz_frame_id>laser_frame</gz_frame_id>
@@ -58,7 +58,6 @@
         </sensor>
     </gazebo>
 
-    <!-- Diff Drive Plugin (Fortress için uyarlanmış) -->
     <gazebo>
         <plugin
             filename="libignition-gazebo-diff-drive-system.so"
@@ -89,17 +88,15 @@
         </plugin>
 
         <!-- ROS Kamera Plugin -->
-        <gazebo>
-            <plugin filename="libgazebo_ros_camera.so" name="ros_camera">
-                <ros>
-                    <namespace>/</namespace>
-                </ros>
-                <camera_name>camera</camera_name>
-                <frame_name>camera_optical_link</frame_name>
-                <hack_baseline>0.07</hack_baseline>
-                <update_rate>10</update_rate>
-            </plugin>
-        </gazebo>
+        <plugin filename="libgazebo_ros_camera.so" name="ros_camera">
+            <ros>
+                <namespace>/</namespace>
+            </ros>
+            <camera_name>camera</camera_name>
+            <frame_name>camera_optical_link</frame_name>
+            <hack_baseline>0.07</hack_baseline>
+            <update_rate>10</update_rate>
+        </plugin>
 
     </gazebo>
 

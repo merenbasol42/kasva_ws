@@ -27,7 +27,8 @@ setup(
     entry_points={
         'console_scripts': [
             _entry_point("sync"),
-            _entry_point("async")
+            _entry_point("async"),
+            _entry_point("test_lidar")
         ],
     },
 )

@@ -1,64 +1,5 @@
 <?xml version="1.0" ?>
-<!--
-  Try inserting a model:
 
-ign service -s /world/empty/create \
---reqtype ignition.msgs.EntityFactory \
---reptype ignition.msgs.Boolean \
---timeout 300 \
---req 'sdf: '\
-'"<?xml version=\"1.0\" ?>'\
-'<sdf version=\"1.6\">'\
-'<model name=\"spawned_model\">'\
-'<link name=\"link\">'\
-'<visual name=\"visual\">'\
-'<geometry><sphere><radius>1.0</radius></sphere></geometry>'\
-'</visual>'\
-'<collision name=\"visual\">'\
-'<geometry><sphere><radius>1.0</radius></sphere></geometry>'\
-'</collision>'\
-'</link>'\
-'</model>'\
-'</sdf>" '\
-'pose: {position: {z: 10}} '\
-'name: "new_name" '\
-'allow_renaming: true'
-
-  Then try deleting it:
-
-ign service -s /world/empty/remove \
---reqtype ignition.msgs.Entity \
---reptype ignition.msgs.Boolean \
---timeout 300 \
---req 'name: "new_name" type: MODEL'
-
-  Try inserting a light:
-
-ign service -s /world/empty/create --reqtype ignition.msgs.EntityFactory --reptype ignition.msgs.Boolean --timeout 300 --req 'sdf: '\
-'"<?xml version=\"1.0\" ?>'\
-'<sdf version=\"1.6\">'\
-'<light name=\"spawned_light\" type=\"directional\">'\
-'<pose>0 0 10 0.1 1.0 0</pose>'\
-'</light>'\
-'</sdf>"'
-
-  Then try deleting it:
-
-ign service -s /world/empty/remove \
---reqtype ignition.msgs.Entity \
---reptype ignition.msgs.Boolean \
---timeout 300 \
---req 'name: "spawned_light" type: LIGHT'
-
-  Insert a light using a message and allow_renaming:
-
-ign service -s /world/empty/create \
---reqtype ignition.msgs.EntityFactory \
---reptype ignition.msgs.Boolean \
---timeout 300 \
---req 'allow_renaming: true, light: {name: "spawned_light", type: 2, diffuse: {r: 1}}'
-
--->
 <sdf version="1.6">
   <world name="empty">
 
@@ -129,10 +70,10 @@ ign service -s /world/empty/create \
     </model>
 
     <include>
-        <uri>
-            file:///home/ustad/Projects/Gazebo/models/yolwzemin/model.sdf
-        </uri>
+      <uri>models://yolwzemin</uri>
+      <name>yolwzemin</name>
+      <pose>5.65563 -0.31109 5.2e-05 0 0 -1.57</pose>
     </include>
-		
+
   </world>
 </sdf>

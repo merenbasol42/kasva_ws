@@ -2,64 +2,85 @@ import os
 from ament_index_python.packages import get_package_share_directory
 import xacro
 from launch import LaunchDescription
-from launch.actions import TimerAction, ExecuteProcess
+from launch.actions import ExecuteProcess, SetEnvironmentVariable
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-
 
 def generate_launch_description():
-    # Paketin share dizinini al
+
     pkg_name = "kasva_simulate"
+    pkg_share = get_package_share_directory(pkg_name)
     desc_pkg_name = "kasva_description"
     desc_pkg_share = get_package_share_directory(desc_pkg_name)
     
-    # Xacro dosyasının tam yolunu oluştur
-    xacro_file = os.path.join(desc_pkg_share, 'urdf', 'gazebo.urdf.xacro')
+    models_path = os.path.join(
+        pkg_share,
+        "models"
+    )
+
+    existing_resource_path = os.environ.get("IGN_GAZEBO_RESOURCE_PATH", "")
+    if existing_resource_path:
+        new_resource_path = models_path + ":" + existing_resource_path
+    else:
+        new_resource_path = models_path
+
+    #
+    #
+    #
     
-    # Xacro dosyasını işle (URDF'e çevir)
-    doc = xacro.process_file(xacro_file)
-    robot_desc = doc.toxml()
-    
-    # İşlenmiş URDF'i geçici bir dosyaya yaz
-    tmp_urdf_file = '/tmp/kasva_robot.urdf'
-    with open(tmp_urdf_file, 'w') as f:
-        f.write(robot_desc)
-    
+    set_gz_res_path = SetEnvironmentVariable(
+        name = "IGN_GAZEBO_RESOURCE_PATH",
+        value = new_resource_path
+    )
     
     world_path = os.path.join(
-        get_package_share_directory(pkg_name),
+        pkg_share,
         "worlds",
         "line_follow.sdf"
     )
     
-    return LaunchDescription([
-        # 1. Ignition Gazebo (Fortress)'u varsayılan world ile başlat
-        ExecuteProcess(
-            cmd=['ign', 'gazebo', world_path, '-v', '4'],
-            output='screen'
-        ),
-        Node(
-            package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
-            output='screen',
-            parameters=[{'robot_description': robot_desc}]
-        ),
-        # 4. 10 saniye sonra Ignition servisi ile URDF modelini spawn et
-       TimerAction(
-            period=5.0,  # Gazebo'nun tamamen açılması için bekleme süresi
-            actions=[
-                ExecuteProcess(
-                    cmd=[
-                        'ign', 'service', '-s', '/world/empty/create',
-                        '--reqtype', 'ignition.msgs.EntityFactory',
-                        '--reptype', 'ignition.msgs.Boolean',
-                        '--timeout', '1000',
-                        '--req', f'sdf_filename: "{tmp_urdf_file}", name: "custom_robot", pose: {{ position: {{ x: 0, y: 0, z: 1 }}, orientation: {{ w: 1, x: 0, y: 0, z: 0 }} }}'
-                    ],
-                    output='screen'
-                )
-            ]
+    rviz_cfg_path = os.path.join(
+        pkg_share,
+        "rviz",
+        "line_follow_cfg.rviz"
+    )
+
+    bridge_node = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='bridge_node',
+        output='screen',
+        arguments=[
+            '/camera/image_raw@sensor_msgs/msg/Image@ignition.msgs.Image',
+            '/scan@sensor_msgs/msg/LaserScan@ignition.msgs.LaserScan'
+        ]
+    )
+
+    spawn_robot = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                desc_pkg_share,
+                "launch",
+                "spawn_gazebo.launch.py"
+            )
         )
+    )
+
+    exe_gazebo = ExecuteProcess(
+        cmd=['ign', 'gazebo', world_path, '-v', '4'],
+        output='screen'
+    )
+
+    exe_rviz = ExecuteProcess(
+        cmd=['rviz2', '-d', rviz_cfg_path]
+    )
+
+    return LaunchDescription([
+        set_gz_res_path,
+        exe_gazebo,
+        exe_rviz,
+        spawn_robot,
+        bridge_node
     ])
