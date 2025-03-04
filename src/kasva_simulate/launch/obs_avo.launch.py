@@ -1,12 +1,16 @@
 import os
-from ament_index_python.packages import get_package_share_directory
-import xacro
+
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess, SetEnvironmentVariable
-from launch.actions import IncludeLaunchDescription
+from launch.actions import (
+    ExecuteProcess,
+    SetEnvironmentVariable,
+    IncludeLaunchDescription,
+    TimerAction
+)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
@@ -78,10 +82,24 @@ def generate_launch_description():
         cmd=['rviz2', '-d', rviz_cfg_path]
     )
 
+    exe_cmd_vel = TimerAction(
+        period = 5.1,
+        actions = [
+            ExecuteProcess(
+                cmd='ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.5}}" --once'.split(' '),
+                shell=True,
+                output='screen'
+            )
+        ]
+    ) 
+    
+
+
     return LaunchDescription([
         set_gz_res_path,
         exe_gazebo,
         exe_rviz,
         spawn_robot,
-        bridge_node
+        bridge_node,
+        exe_cmd_vel
     ])
