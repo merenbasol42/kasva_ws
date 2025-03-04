@@ -6,6 +6,8 @@ from geometry_msgs.msg import Twist
 from cv_bridge import CvBridge
 import cv2
 import numpy as np
+from .config.line_follow import *
+
 
 class SimpleLaneFollower(Node):
     def __init__(self):
@@ -58,9 +60,8 @@ class SimpleLaneFollower(Node):
 
             # Twist mesajı oluşturup yayınla
             twist = Twist()
-            twist.linear.x = 0.2  # Sabit ileri hız (duruma göre ayarlanabilir)
-            k_steering = 0.005    # Açısal hız kazancı
-            twist.angular.z = k_steering * error
+            twist.linear.x = LIN_VEL  # Sabit ileri hız (duruma göre ayarlanabilir)
+            twist.angular.z = K_STEER * error
             self.cmd_vel_pub.publish(twist)
         else:
             self.get_logger().info("Şerit bulunamadı.")
