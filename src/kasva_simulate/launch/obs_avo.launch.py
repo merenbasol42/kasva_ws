@@ -98,7 +98,7 @@ def generate_launch_description():
     return LaunchDescription([
         set_gz_res_path,
         exe_gazebo,
-        exe_rviz,
+        # exe_rviz,
         spawn_robot,
         bridge_node,
         exe_cmd_vel

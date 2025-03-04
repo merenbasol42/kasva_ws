@@ -123,8 +123,10 @@ class AsyncObsAvo(Node):
         self.get_logger().info(f"scan konfigurasyonu tamamlandi.")
 
     def scan_cb(self, msg: LaserScan):
+        n = len(msg.ranges)
+        msg.ranges = msg.ranges[n//2:] + msg.ranges[:n//2]
         self.last_scan.update(msg)
-        # print(self.last_scan.to_str())
+        print(self.last_scan.to_str())
 
     def odom_callback(self, msg: Odometry):
         # Odometry bilgisinden pozisyon ve yönelim (yaw) bilgisini alıyoruz.
