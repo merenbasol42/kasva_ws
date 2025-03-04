@@ -9,14 +9,14 @@
     <link name="link">
       
       <!-- Collision bilgisi mevcut, ancak çarpışmalar devre dışı bırakılıyor -->
-      <collision name="collision">
-        <!-- <geometry>
+      <!-- <collision name="collision">
+        <geometry>
           <mesh>
             <uri>meshes/road.STL</uri>
             <scale>0.001 0.001 0.00000001</scale>
           </mesh>
-        </geometry> -->
-      </collision>
+        </geometry>
+      </collision> -->
       
       <!-- Görsel Tanımlama -->
       <visual name="visual">
