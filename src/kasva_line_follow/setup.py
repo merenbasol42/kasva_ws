@@ -1,6 +1,13 @@
 from setuptools import find_packages, setup
 
-package_name = 'line_follower'
+package_name = 'kasva_line_follow'
+
+
+def _entry_point(exec_name:str) -> str:
+    return f"{exec_name} = {package_name}.{exec_name}:main"
+
+def _data_file(to_:list[str], from_:str) -> tuple[str, list[str]]:
+    return (to_, from_)
 
 setup(
     name=package_name,
@@ -20,6 +27,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            _entry_point("line_follower")
         ],
     },
 )
