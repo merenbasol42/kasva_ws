@@ -70,9 +70,8 @@
     </model>
 
     <include>
-      <uri>models://yolwzemin</uri>
-      <name>yolwzemin</name>
-      <pose>5.65563 -0.31109 5.2e-05 0 0 -1.57</pose>
+      <uri>models://road</uri>
+      <name>road</name>
     </include>
 
   </world>

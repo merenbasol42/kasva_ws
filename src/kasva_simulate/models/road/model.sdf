@@ -1,31 +1,29 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
-  <model name="yolwzemin">
+  <model name="road">
+    <!-- Modelin tümüne uygulanacak pose: x y z roll pitch yaw -->
+    <pose>6.7 0.5 0 0 0 1.57</pose>
+    
     <!-- Model statik olsun, böylece fizik etkileşimine girmesin -->
     <static>true</static>
     <link name="link">
       
       <!-- Collision bilgisi mevcut, ancak çarpışmalar devre dışı bırakılıyor -->
       <collision name="collision">
-        <geometry>
+        <!-- <geometry>
           <mesh>
-            <uri>meshes/yolwzemin.stl</uri>
-            <scale>0.3 0.3 0.3</scale>
+            <uri>meshes/road.STL</uri>
+            <scale>0.001 0.001 0.00000001</scale>
           </mesh>
-        </geometry>
-        <surface>
-          <contact>
-            <collide_bitmask>0</collide_bitmask>
-          </contact>
-        </surface>
+        </geometry> -->
       </collision>
       
       <!-- Görsel Tanımlama -->
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>meshes/yolwzemin.stl</uri>
-            <scale>0.1 0.5 0.3</scale>
+            <uri>meshes/road.STL</uri>
+            <scale>0.1 0.7 0.1</scale>
           </mesh>
         </geometry>
         <material>
@@ -42,7 +40,7 @@
         <angular>0.2</angular>
       </velocity_decay>
       
-      <!-- İnertial bilgileri de isteğe bağlı; görsel amaçlı kullanımlarda genelde gerekmez -->
+      <!-- İnertial bilgileri -->
       <inertial>
         <mass>0.5</mass>
         <inertia>
