@@ -70,7 +70,7 @@
     </model>
 
     <include>
-      <uri>models://track1</uri>
+      <uri>models://track3</uri>
       <name>road</name>
     </include>
 

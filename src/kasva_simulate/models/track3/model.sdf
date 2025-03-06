@@ -22,7 +22,7 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>meshes/robo_kasva_zemin_sekil_001.STL</uri>
+            <uri>meshes/robo_kasva_sekil_003.STL</uri>
             <scale>0.003 0.003 0.003</scale>
           </mesh>
         </geometry>
