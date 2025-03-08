@@ -51,15 +51,20 @@ def generate_launch_description():
         "obs_avo_cfg.rviz"
     )
 
+    gazebo_cfg_path = os.path.join(
+        pkg_share,
+        "gazebo",
+        "topic_bridge.yaml"
+    )
+
     bridge_node = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         name='bridge_node',
         output='screen',
         arguments=[
-            '/camera/image_raw@sensor_msgs/msg/Image@ignition.msgs.Image',
-            '/scan@sensor_msgs/msg/LaserScan@ignition.msgs.LaserScan',
-            '/cmd_vel@geometry_msgs/msg/Twist@ignition.msgs.Twist'
+            '--ros-args',
+            '-p', f'config_file:={gazebo_cfg_path}'   
         ]
     )
 
@@ -93,13 +98,19 @@ def generate_launch_description():
         ]
     ) 
     
-
+    odom_node = Node(
+        package='kasva_sim_scripts',
+        executable='odom',
+        name='odom_includer',
+        output='screen'
+    )
 
     return LaunchDescription([
         set_gz_res_path,
         exe_gazebo,
-        # exe_rviz,
+        exe_rviz,
         spawn_robot,
         bridge_node,
+        odom_node,
         exe_cmd_vel
     ])

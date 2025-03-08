@@ -5,8 +5,8 @@ from .istrategy import IStrategy
 
 # Sabitler (Parametreleri çalışma ortamına göre ayarla)
 PI = math.pi
-DESIRED_DISTANCE = 0.45      # Sağ duvardan istenen mesafe (m)
-FRONT_THRESHOLD    = 0.35    # Ön engel için kritik mesafe (m)
+DESIRED_DISTANCE = 0.55      # Sağ duvardan istenen mesafe (m)
+FRONT_THRESHOLD    = 0.45    # Ön engel için kritik mesafe (m)
 MAX_RANGE          = 3.5     # Lazer tarayıcı maksimum ölçüm mesafesi (m)
 
 KP = 1.0                   # Duvar takip için orantısal kazanç
@@ -20,6 +20,7 @@ class Strategy(IStrategy):
         super().__init__(f_get_curr_pose, f_get_curr_ranges, f_pub_cmd_vel)
 
     def avoid(self):
+        self.exactly_turn(PI/2)
         """
         Sağ duvarı takip eden, hiçbir zaman çarpmayan ve kararlı çalışması amaçlanan üst düzey kaçınma algoritması.
         - Ön sensör bölgesi engel tespitinde önceliklidir.

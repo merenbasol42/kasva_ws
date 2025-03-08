@@ -16,4 +16,4 @@ class IStrategy:
         self.__f_pub_cmd_vel(linear, angular)
 
     def avoid(self) -> None:
-        pass
+        ...

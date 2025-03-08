@@ -24,7 +24,7 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY launch models worlds rviz
+  DIRECTORY launch models worlds rviz gazebo
   DESTINATION share/${PROJECT_NAME}/
 )
 

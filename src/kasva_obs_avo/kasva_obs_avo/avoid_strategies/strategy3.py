@@ -2,14 +2,7 @@ import math
 import time
 
 from .istrategy import IStrategy
-
-PI: float = 3.141592
-
-OBS_AVO_DIST: float = 0.45        # Engel etrafında istenen mesafe (metre)
-FRONT_AVO_DIST: float = 0.35     # Ön engel için kritik mesafe (metre)
-ANG_KP: float = 4.0               # Açısal kazanç
-
-MAX_POINT_DIST: float = 3.5
+from ..config.obs_avoid_props import *
 
 class Strategy(IStrategy):
     def __init__(self, f_get_curr_pose, f_get_curr_ranges, f_pub_cmd_vel):
@@ -42,10 +35,10 @@ class Strategy(IStrategy):
             err = OBS_AVO_DIST - right_range
             print(f"err {err}")
             angular = ANG_KP * err
-            angular = normalise(angular, PI)
+            angular = normalise(angular, math.pi)
 
             # İlerleme hızı; açısal hız arttıkça lineer hız azaltılıyor.
-            lin = min(0.2, (0.2 * ((PI - abs(angular)) / PI)))
+            lin = min(0.2, (0.2 * ((math.pi - abs(angular)) / math.pi)))
 
             # *** Yeni Özellik: Ön sensörden mesafe kontrolü ***
             # Eğer robotun önündeki mesafe belirli eşik değerinin altındaysa, çarpmayı önlemek için
@@ -121,7 +114,7 @@ class Strategy(IStrategy):
         self.stop()
 
 #
-#
+# 
 #
 
 def calc_diff_line(x0: float, x1: float, y0: float, y1: float, theta0: float) -> float:
