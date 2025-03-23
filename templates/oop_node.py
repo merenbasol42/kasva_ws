@@ -18,7 +18,7 @@ def main():
     rclpy.init()
     node = MyNode()
     try: rclpy.spin(node)
-    except: pass
+    except KeyboardInterrupt: pass 
     node.destroy_node()
     rclpy.shutdown()
     
