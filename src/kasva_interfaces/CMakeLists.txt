@@ -28,6 +28,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Velocity.msg"
   "msg/VelocityCommand.msg"
   "msg/EncoderStats.msg"
+  "msg/EcoPose.msg"
+  "msg/EcoOdom.msg"
   #
   #
   #
