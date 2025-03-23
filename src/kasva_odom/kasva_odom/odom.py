@@ -50,14 +50,14 @@ class OdomNode(Node):
     def enc_stats_cb(self, msg:EncoderStats):
         # self.get_logger().info("dap_left: %f , dap_right: %f" %(msg.dap_left,msg.dap_right))
 
-        linear = (msg.vel_left + msg.vel_right) / 2 # linear velocity
-        angular = (msg.vel_right - msg.vel_left) / WHEEL_SEPERATION # angular velocity
+        linear = (msg.vel_l + msg.vel_r) / 2 # linear velocity
+        angular = (msg.vel_r - msg.vel_l) / WHEEL_SEPERATION # angular velocity
 
         # self.get_logger().info("linear: %f , angular: %f" %(linear,angular))
 
         # dap: delta angular position (of wheel)
-        dx_left = msg.dap_left * WHEEL_RADIUS # delta x(yol) left wheel 
-        dx_right = msg.dap_right * WHEEL_RADIUS # delta x(yol) right wheel
+        dx_left = msg.dap_l * WHEEL_RADIUS # delta x(yol) left wheel 
+        dx_right = msg.dap_r * WHEEL_RADIUS # delta x(yol) right wheel
 
         d_s = (dx_left + dx_right) / 2  # İki tekerin aldığı  yol ortalaması 
         d_theta = (dx_right - dx_left) / WHEEL_SEPERATION  # delta theta
