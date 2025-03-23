@@ -30,6 +30,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/EncoderStats.msg"
   "msg/EcoPose.msg"
   "msg/EcoOdom.msg"
+  "msg/CameraPerformance.msg"
   #
   #
   #

@@ -45,6 +45,7 @@ class CameraDecompressorNode(Node):
                     return
 
                 self.sub_flag = False
+                self.pub_flag = True
 
             else:
                 time.sleep(0.005)     
